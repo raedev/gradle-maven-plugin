@@ -4,6 +4,13 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.21' apply false
 }
 
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 /** 插件调试任务 */
 task("debugMavenPlugin") {
     dependsOn(":plugin:publishToMavenLocal", ":demo:kotlin-lib-demo:publishToMaven")

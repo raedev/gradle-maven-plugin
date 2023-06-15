@@ -23,6 +23,11 @@ open class MavenPublishPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         // 应用Gradle官方的Maven插件
         project.plugins.apply(MavenPublishPlugin::class.java)
+        project.extensions.create(
+            extensionName, PublishConfigExtension::class.java,
+            project,
+            project.localProperties
+        )
         // 自动创建publishing 节点并注入参数
         project.createPublishingNode()
         // 创建任务
@@ -35,13 +40,10 @@ open class MavenPublishPlugin : Plugin<Project> {
             }
         }
     }
+
     protected open fun Project.createPublishingNode() {
         this.afterEvaluate { project ->
-            extension = project.extensions.create(
-                extensionName, PublishConfigExtension::class.java,
-                project,
-                project.localProperties
-            )
+            extension = project.extensions.getByType(PublishConfigExtension::class.java)
             configPublishExtension(extension)
             project.gradlePublishing.repositories.maven {
                 it.url = uri(extension.mavenUrl)

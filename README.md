@@ -6,7 +6,7 @@
 
 - gradle 8.0
 - Android Studio Flamingo | 2022.2.1 Patch 2
-- 推送命令：`:plugin:publishMavenPluginPluginMarkerMavenPublicationToMavenRepository`
+- 发布本项目到Maven仓库命令：`:maven-plugin:publishAllPublicationsToMavenRepository`
 
 ## 使用方式
 

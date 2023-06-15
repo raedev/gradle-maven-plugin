@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.github.raedev.maven
 
 import com.android.build.gradle.LibraryExtension
@@ -10,13 +12,22 @@ import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.util.Properties
 
+/**
+ * Maven Publishing 插件配置节点
+ */
 internal inline val Project.gradlePublishing: PublishingExtension
     get() = extensions.getByType(PublishingExtension::class.java)
 
+/**
+ * 项目的 Android 节点
+ */
 internal inline val Project.android: LibraryExtension
     get() = extensions.getByType(LibraryExtension::class.java)
 
 
+/**
+ * 读取 local.properties
+ */
 internal inline val Project.localProperties: Properties
     get() {
         val properties = Properties()
@@ -29,29 +40,46 @@ internal inline val Project.localProperties: Properties
         return properties
     }
 
+/**
+ * 输出日志
+ */
 internal fun info(msg: Any) {
     println("> maven publishing plugin: $msg")
 }
 
+/**
+ * 完成日志
+ */
 internal fun bingo(message: String) {
     println("> maven publishing plugin: bingo~~ $message\ndevelop by RAE (https://github.com/raedev) ٩(๑>◡<๑)۶ ")
 }
 
+/**
+ * 清除本地缓存
+ */
 internal fun cleanMavenCache(project: Project, extension: PublishConfigExtension) {
-    var cacheDir = File(
+    val path = "${extension.group}/${extension.artifactId}"
+    val cacheDir = File(
         project.gradle.gradleUserHomeDir,
-        "caches/modules-2/files-2.1/${extension.group}/${extension.artifactId}"
+        "caches/modules-2/"
     )
-    var successfully = cacheDir.deleteDir()
-    info("delete cache file dir: [$successfully]: $cacheDir")
-    cacheDir = File(
-        project.gradle.gradleUserHomeDir,
-        "caches/modules-2/metadata-2.97/descriptors/${extension.group}/${extension.artifactId}"
-    )
-    successfully = cacheDir.deleteDir()
-    info("delete metadata cache dir: [$successfully]: $cacheDir")
+    cacheDir.listFiles()?.forEach {
+        if (it.startsWith("files")) {
+            val dir = File(it, path)
+            info("delete cache file dir: [${dir.deleteDir()}: $dir")
+            return@forEach
+        }
+        if (it.startsWith("meta")) {
+            val dir = File(it, "descriptors/$path")
+            info("delete metadata file dir: [${dir.deleteDir()}: $dir")
+            return@forEach
+        }
+    }
 }
 
+/**
+ * 抛出插件异常
+ */
 inline fun pluginError(message: String): Nothing = throw GradleException(message)
 
 /**
