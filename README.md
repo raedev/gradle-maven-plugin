@@ -28,6 +28,11 @@ plugins {
     // 添加插件
     id 'com.github.raedev.maven' version '1.0.0' apply false
 }
+
+repositories {
+    // 仓库地址
+    maven { url 'https://maven.raeblog.com/repository/public/' }
+}
 ```
 
 3、项目下`build.gradle` 配置上传参数。
@@ -41,16 +46,15 @@ plugins {
 
 // Maven上传配置
 mavenPublishing {
-    // 【必填】依赖库名称
+    //【必填】名称
     name = "com.github.raedev:demo:1.0.1"
-    // 【可选】项目地址
+    
+    //【可选】项目地址、作者名称、作者邮件
     pomUrl = "https://github.com/raedev"
-    // 【可选】作者名字
     pomName = "rae"
-    // 【可选】作者邮件
     pomEmail = "raedev@qq.com"
 
-    // 【可选】默认读取local.properties的配置，若设置将以此为主
+    //【可选】默认读取local.properties的配置，若设置将以此为主
     mavenUrl = ""
     mavenUser = ""
     mavenPwd = ""
