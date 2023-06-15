@@ -6,6 +6,7 @@ import org.gradle.api.file.CopySpec
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.jvm.tasks.Jar
+import java.io.File
 
 /**
  * 平台，根据项目类型判断
@@ -33,15 +34,12 @@ sealed class Platform {
     object KotlinPlatform : Platform() {
 
         override fun configure(project: Project, maven: MavenPublication) {
-            maven.artifact("build/libs/${project.name}-sources.jar")
-//            maven.artifact(project.tasks.create("sourcesKotlinMavenJar", Jar::class.java) {
-//                info("kotlin platform")
-//                it.group = "publishing"
-//                it.dependsOn("releaseSourcesJar")
-//                it.from(project.android.sourceSets.getByName("main").java.getSourceFiles())
-//                it.archiveClassifier.set("sources")
-//                it.archiveClassifier.convention("sources")
-//            })
+            info("kotlin platform")
+            val path = "build/libs/${project.name}-sources.jar"
+            if (File(project.projectDir, path).exists()) {
+                info("kotlin sources path: $path")
+                maven.artifact(path)
+            }
         }
     }
 

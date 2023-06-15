@@ -70,7 +70,7 @@ open class MavenPublishPlugin : Plugin<Project> {
                     p.developers { d ->
                         d.developer { dp ->
                             dp.id.set(extension.pomName)
-                            dp.name.set(extension.name)
+                            dp.name.set(extension.pomName)
                             dp.email.set(extension.pomEmail)
                         }
                     }
