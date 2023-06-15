@@ -20,7 +20,7 @@ open class PublishConfigExtension(
     var mavenPwd: String = config.getProperty("maven.pwd", "")
 
     var group: String = project.group.toString()
-    var artifactId: String = "undefined"
+    var artifactId: String = project.name
     var version: String = project.version.toString()
 
 
@@ -41,7 +41,7 @@ open class PublishConfigExtension(
         }
 
     override fun toString(): String {
-        return "[$name]: ${mavenUser}@${mavenPwd}:${mavenUrl}; $pomName:$pomEmail:$pomUrl;"
+        return "[$name]: ${mavenUser}:${mavenUrl}; $pomName:$pomEmail:$pomUrl;"
     }
 
 }

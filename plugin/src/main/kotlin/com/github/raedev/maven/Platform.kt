@@ -1,7 +1,10 @@
 package com.github.raedev.maven
 
+import org.gradle.api.Action
 import org.gradle.api.Project
+import org.gradle.api.file.CopySpec
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.AbstractCopyTask
 import org.gradle.jvm.tasks.Jar
 
 /**
@@ -16,7 +19,7 @@ sealed class Platform {
     object JavaPlatform : Platform() {
 
         override fun configure(project: Project, maven: MavenPublication) {
-            maven.artifact(project.tasks.create("sourcesMavenJar", Jar::class.java) {
+            maven.artifact(project.tasks.create("sourcesJavaMavenJar", Jar::class.java) {
                 info("java platform")
                 it.group = "publishing"
                 it.from(project.android.sourceSets.getByName("main").java.getSourceFiles())
@@ -30,7 +33,21 @@ sealed class Platform {
     object KotlinPlatform : Platform() {
 
         override fun configure(project: Project, maven: MavenPublication) {
-            // 无需实现
+            maven.artifact("build/libs/${project.name}-sources.jar")
+//            maven.artifact(project.tasks.create("sourcesKotlinMavenJar", Jar::class.java) {
+//                info("kotlin platform")
+//                it.group = "publishing"
+//                it.dependsOn("releaseSourcesJar")
+//                it.from(project.android.sourceSets.getByName("main").java.getSourceFiles())
+//                it.archiveClassifier.set("sources")
+//                it.archiveClassifier.convention("sources")
+//            })
+        }
+    }
+
+    class kotlinSourceJar : Jar() {
+        override fun from(sourcePath: Any, configureAction: Action<in CopySpec>): AbstractCopyTask {
+            return super.from(sourcePath, configureAction)
         }
     }
 }

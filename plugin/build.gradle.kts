@@ -30,13 +30,8 @@ val mavenUser: String = properties.getProperty("maven.user")
 val mavenPwd: String = properties.getProperty("maven.pwd")
 
 // 发布配置信息
-group = "com.github.raedev.maven"
-version = "0.0.1"
-
-val sourcesJar by tasks.registering(Jar::class) {
-    from(sourceSets.main.get().allSource)
-    archiveClassifier.set("sources")
-}
+group = "com.github.raedev"
+version = "1.0.0"
 publishing {
     repositories {
         maven {
@@ -47,11 +42,26 @@ publishing {
             }
         }
     }
-    publications {
-        register("release", MavenPublication::class) {
-            from(components["java"])
-            artifactId = "com.github.raedev.maven.gradle.plugin"
-            artifact(sourcesJar.get())
-        }
-    }
 }
+//val sourcesJar by tasks.registering(Jar::class) {
+//    from(sourceSets.main.get().allSource)
+//    archiveClassifier.set("sources")
+//}
+//publishing {
+//    repositories {
+//        maven {
+//            url = uri(mavenUrl)
+//            credentials {
+//                username = mavenUser
+//                password = mavenPwd
+//            }
+//        }
+//    }
+//    publications {
+//        register("release", MavenPublication::class) {
+//            from(components["java"])
+//            artifactId = "maven"
+//            artifact(sourcesJar.get())
+//        }
+//    }
+//}

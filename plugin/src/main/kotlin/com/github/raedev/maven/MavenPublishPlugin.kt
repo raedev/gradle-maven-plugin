@@ -12,38 +12,36 @@ import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
  */
 open class MavenPublishPlugin : Plugin<Project> {
 
+    protected open val extensionName = "mavenPublishing"
+    protected open val taskName = "publishToMaven"
+    protected open val taskGroup = "maven"
+    protected lateinit var extension: PublishConfigExtension
+
     /**
      * 插件入口
      */
     override fun apply(project: Project) {
         // 应用Gradle官方的Maven插件
         project.plugins.apply(MavenPublishPlugin::class.java)
-        project.extensions.create(
-            "mavenPublishing", PublishConfigExtension::class.java,
-            project,
-            project.localProperties
-        )
         // 自动创建publishing 节点并注入参数
         project.createPublishingNode()
-        configureProject(project)
-    }
-
-    protected open fun configureProject(project: Project) {
         // 创建任务
-        project.tasks.create("publishToMaven") {
-            it.group = "maven"
+        project.tasks.create(taskName) {
+            it.group = taskGroup
             it.dependsOn("publishReleasePublicationToMavenRepository")
             it.doLast {
-                val extension = project.extensions.getByType(PublishConfigExtension::class.java)
                 cleanMavenCache(project, extension)
                 bingo("the [${extension.name}] has been successfully pushed to ${extension.mavenUrl} ")
             }
         }
     }
-
     protected open fun Project.createPublishingNode() {
         this.afterEvaluate { project ->
-            val extension = project.extensions.getByType(PublishConfigExtension::class.java)
+            extension = project.extensions.create(
+                extensionName, PublishConfigExtension::class.java,
+                project,
+                project.localProperties
+            )
             configPublishExtension(extension)
             project.gradlePublishing.repositories.maven {
                 it.url = uri(extension.mavenUrl)

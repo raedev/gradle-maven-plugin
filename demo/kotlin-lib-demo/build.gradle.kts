@@ -1,12 +1,14 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.github.raedev.maven") version ("0.0.1")
+    id("com.github.raedev.maven") version ("1.0.0")
 }
+group = "com.github.raedev"
+version = "1.0.0"
 
-mavenPublishing {
-    name = "com.github.raedev:demokt:1.0.0"
-}
+//mavenPublishing {
+//    name = "com.github.raedev:demokt:1.0.0"
+//}
 
 //tasks.create<org.gradle.jvm.tasks.Jar>("sourcesKtMavenJar") {
 //    val dirs = project.android.sourceSets.getByName("main").kotlin.srcDirs() as com.android.build.gradle.internal.api.DefaultAndroidSourceDirectorySet

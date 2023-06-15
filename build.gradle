@@ -6,5 +6,5 @@ plugins {
 
 /** 插件调试任务 */
 task("debugMavenPlugin") {
-    dependsOn(":plugin:publishReleasePublicationToMavenLocal", ":demo:kotlin-lib-demo:publishToMaven")
+    dependsOn(":plugin:publishToMavenLocal", ":demo:kotlin-lib-demo:publishToMaven")
 }
