@@ -74,11 +74,19 @@ mavenPublishing {
 
 温馨提示：在`idea`的`gradle`面板中找到你的项目，再找到分组`maven`，点击`publishToMaven`即可。
 
-发布成功后输出：
+## kotlin 项目使用
 
-```text
-> Task :forms:publishToMaven
-> maven publishing plugin: delete cache file dir: [true]: xxxx
-> maven publishing plugin: delete metadata cache dir: [true]: xxx
-> maven publishing plugin: bingo~~ the [com.github.raedev:xxx:1.0.0] has been successfully pushed to https://maven.xxx.com/repository/xxx
+若需要上传kotlin源码，请升级kotlin插件版本到`1.8.21` 以上版本：
+
+```groovy
+plugins {
+    id 'com.android.application' version '8.0.2' apply false
+    id 'com.android.library' version '8.0.2' apply false
+    // kotlin 1.8.21+ 插件支持打包源码，其他版本请验证有没有 releaseSourcesJar gradle任务。
+    id 'org.jetbrains.kotlin.android' version '1.8.21' apply false
+}
 ```
+
+
+
+
