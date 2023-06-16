@@ -28,10 +28,17 @@ plugins {
     // 添加插件
     id 'com.github.raedev.maven' version '1.0.0' apply false
 }
+```
 
-repositories {
-    // 仓库地址
-    maven { url 'https://maven.raeblog.com/repository/public/' }
+```groovy
+// 在 settings.gradle 配置仓库地址
+pluginManagement {
+    repositories {
+        maven { url 'https://maven.dev-geostar.com/repository/public' }
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
 }
 ```
 
