@@ -34,7 +34,7 @@ plugins {
 // 在 settings.gradle 配置仓库地址
 pluginManagement {
     repositories {
-        maven { url 'https://maven.dev-geostar.com/repository/public' }
+        maven { url 'https://maven.raeblog.com/repository/public' }
         google()
         mavenCentral()
         gradlePluginPortal()
